@@ -62,7 +62,23 @@ function TabContent({ item }) {
   const [likes, setLikes] = useState(0);
 
   function handleInc() {
-    setLikes(likes + 1);
+    setLikes((likes) => likes + 1);
+  }
+
+  function handleSuperInc() {
+    // gunakan callback function untuk mendapatkan nilai state sebelumnya pada saat terjadi state update batching
+    setLikes((likes) => likes + 1);
+    setLikes((likes) => likes + 1);
+    setLikes((likes) => likes + 1);
+  }
+
+  function handleReset() {
+    setLikes(0);
+    setShowDetails(true);
+  }
+
+  function handleResetAfter() {
+    setTimeout(handleReset, 2000);
   }
 
   return (
@@ -78,13 +94,13 @@ function TabContent({ item }) {
         <div className="hearts-counter">
           <span>{likes} ❤️</span>
           <button onClick={handleInc}>+</button>
-          <button>+++</button>
+          <button onClick={handleSuperInc}>+++</button>
         </div>
       </div>
 
       <div className="tab-undo">
-        <button>Undo</button>
-        <button>Undo in 2s</button>
+        <button onClick={handleReset}>Undo</button>
+        <button onClick={handleResetAfter}>Undo in 2s</button>
       </div>
     </div>
   );
